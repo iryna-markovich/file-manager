@@ -1,22 +1,20 @@
-import fs from 'fs'
+import fs from 'fs/promises'
 import path from 'path'
 import crypto from 'crypto'
-import util from 'util'
-import { onOperationError } from '../utils/errors.js'
 
-const promisify = (cb) => util.promisify(cb)
+import { onOperationError } from '../utils/errors.js'
 
 export const hash = async (dir, args) => {
   const pathToFile = path.resolve(dir, args[0])
 
-  const doesFileExist = await promisify(fs.stat)(pathToFile).catch((e) => {
+  const doesFileExist = await fs.stat(pathToFile).catch((e) => {
     onOperationError()
   })
 
   let file
 
   if (doesFileExist) {
-    file = await promisify(fs.readFile)(pathToFile, 'utf-8').catch((e) => {
+    file = await fs.readFile(pathToFile, 'utf-8').catch((e) => {
       onOperationError()
     })
   }

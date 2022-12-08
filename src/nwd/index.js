@@ -1,26 +1,41 @@
-import path from 'path'
-import fs from 'fs'
+import { join, resolve } from 'path'
+import fs from 'fs/promises'
+import { constants } from 'fs'
+import { onOperationError } from '../utils/errors.js'
 
-export const up = (dir) => path.join(dir, '..')
+export const up = (dir) => join(dir, '..')
 
-export const cd = (dir, args) => {
-  // path_to_directory = args[0]
-  return dir
+export const cd = async (dir, args) => {
+  const path = resolve(dir, args[0])
+
+  try {
+    await fs.access(path, constants.R_OK | constants.W_OK)
+
+    return path
+  } catch (e) {
+    onOperationError()
+
+    return dir
+  }
 }
 
 export const ls = async (dir) => {
-  fs.readdir(dir, { withFileTypes: true }, (err, files) => {
-    if (err) console.log(err)
+  const files = await fs.readdir(dir, { withFileTypes: true }).catch((e) => {
+    onOperationError()
+  })
 
-    const formattedFiles = files
+  let formattedFiles
+
+  if (files) {
+    formattedFiles = files
       .map((file) => ({
         name: file.name,
         type: file.isDirectory() ? 'directory' : 'file',
       }))
       .sort() //fix sort
+  }
 
-    console.table(formattedFiles)
-  })
+  console.table(formattedFiles)
 
   return dir
 }

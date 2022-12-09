@@ -3,6 +3,7 @@ import { cat, add, rn, cp, mv, rm } from '../fs/index.js'
 import { os } from '../os/index.js'
 import { hash } from '../hash/index.js'
 import { compress, decompress } from '../zip/index.js'
+import { exit } from '../exit/index.js'
 
 export const commands = {
   up: up,
@@ -18,5 +19,5 @@ export const commands = {
   hash: hash,
   compress: compress,
   decompress: decompress,
-  //   '.exit': exit,
+  '.exit': exit,
 }

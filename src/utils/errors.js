@@ -1,4 +1,4 @@
-export const onInputError = (dirName) => {
+export const onInputError = () => {
   console.log(`Invalid input`)
 }
 

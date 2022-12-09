@@ -1,12 +1,12 @@
 # file-manager
 
-### To start the program use npm-script:
+## To start the program:
 
 ```bash
 npm run start -- --username=your_username
 ```
 
-### List of operations:
+## List of operations:
 
 #### Navigation & working directory
 

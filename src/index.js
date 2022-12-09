@@ -25,7 +25,7 @@ const run = () => {
     const isValid = validateInput(name, rest)
 
     if (isValid) {
-      currentDirectory = await commands[name](currentDirectory, rest, userName)
+      currentDirectory = await commands[name].call(currentDirectory, rest, userName)
     } else onInputError()
 
     showCurrentLocation(currentDirectory)

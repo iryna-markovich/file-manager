@@ -19,6 +19,8 @@ export const cd = async (dir, args) => {
   }
 }
 
+const comparator = (a, b) => (a.type < b.type ? -1 : a.type > b.type ? 1 : 0)
+
 export const ls = async (dir) => {
   const files = await fs.readdir(dir, { withFileTypes: true }).catch((e) => {
     onOperationError()
@@ -32,7 +34,7 @@ export const ls = async (dir) => {
         name: file.name,
         type: file.isDirectory() ? 'directory' : 'file',
       }))
-      .sort() //fix sort
+      .sort(comparator)
   }
 
   console.table(formattedFiles)
